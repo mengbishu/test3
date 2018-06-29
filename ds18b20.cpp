@@ -151,7 +151,7 @@ namespace DS18B20 {
       //float answer, remaining_count, count_per_degree;
       int reading = 0;
       readScratchPad(address);
-/*
+
       if (RAM_checksum_error()){
         // Indicate we got a CRC error
         answer = invalid_conversion;
@@ -175,14 +175,14 @@ namespace DS18B20 {
                               (count_per_degree - remaining_count) / count_per_degree);
             break;
           default:
-            //uBit.serial.printf("Unknown device family");
+            printf("Unknown device family");
             break;
         }
         if (convertToFarenheight) {
             answer = answer * 9.0f / 5.0f + 32.0f;
         }
       }
-*/
+
     reading = (RAM[1] << 8) + RAM[0];
       return reading*100/16;
     }
@@ -391,7 +391,7 @@ namespace DS18B20 {
       return_value = false;
       while (!DS1820_done_flag) {
         if (!onewire_reset()) {
-          //uBit.serial.printf("Failed to reset one wire bus\n");
+          printf("Failed to reset one wire bus\n");
           return false;
         } else {
           ROM_bit_index = 1;
@@ -405,7 +405,7 @@ namespace DS18B20 {
             if (Bit_A & Bit_B) {
               descrepancyMarker = 0; // data read error, this should never happen
               ROM_bit_index = 0xFF;
-              //uBit.serial.printf("Data read error - no devices on bus?\r\n");
+              printf("Data read error - no devices on bus?\r\n");
             } else {
               if (Bit_A | Bit_B) {
                 // Set ROM bit to Bit_A
@@ -444,7 +444,7 @@ namespace DS18B20 {
             while (1) {
               if (i >= found_addresses.size()) {                             //End of list, or empty list
                 if (ROM_checksum_error(DS1820_search_ROM)) {          // Check the CRC
-                  //uBit.serial.printf("failed crc\r\n");
+                  printf("failed crc\r\n");
                   return false;
                 }
                 rom_address_t address;
@@ -535,6 +535,6 @@ namespace DS18B20 {
     oneWire.singleDeviceReadROM(address);
     oneWire.convertTemperature(address, true, true);
     return oneWire.temperature(address);
-    return 0;
+    //return 0;
   }
 }
